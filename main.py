@@ -46,7 +46,7 @@ st.sidebar.title("Admin")
 
 password = st.sidebar.text_input("Password")
 
-if password == st.secrets["wachtwoord "]:
+if password == st.secrets["wachtwoord"]:
     delete_users = st.sidebar.button("Verwijder alle aanmeldingen")
 
     if delete_users:
