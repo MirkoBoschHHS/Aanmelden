@@ -22,11 +22,12 @@ ingevoerde_naam = col1.text_input("Vul hier je naam in")
 bevestigen = col2.button("Bevestigen")
 
 
-
-
 if bevestigen:
     if len(aangemeld["Naam"]) >= max_personen:
-        st.warning("Te veel aanmeldingen, we zitten vol")
+        st.warning("Te veel aanmeldingen, je bent op de wacht lijst gezet")
+        aangemeld["Naam"].append(ingevoerde_naam)
+        with open('Aanmeldingen.json', 'w') as f:
+            json.dump(aangemeld, f)
     else:
         aangemeld["Naam"].append(ingevoerde_naam)
         with open('Aanmeldingen.json', 'w') as f:
@@ -38,9 +39,24 @@ if bevestigen:
 st.title(f"Er zijn nog {max_personen-len(aangemeld['Naam'])} plekken beschikbaar")
 
 
-st.write("Aanmeldingen:")
-for naam in aangemeld["Naam"]:
-    st.write("\t" + str(naam))
+namen_list = aangemeld["Naam"]
+
+st.subheader("#Aanmeldingen:")
+for i in range(0,max_personen):
+    try:
+        st.write("\t" + str(namen_list[i]))
+    except:
+        break
+
+
+if len(namen_list) >= max_personen:
+    st.subheader("#Wacht lijst:")
+    for i in range(max_personen, 30):
+        try:
+            st.write("\t" + str(namen_list[i]))
+        except:
+            break
+
 
 st.sidebar.title("Admin")
 
